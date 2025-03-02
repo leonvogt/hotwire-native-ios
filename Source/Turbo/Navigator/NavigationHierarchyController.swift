@@ -111,6 +111,7 @@ class NavigationHierarchyController {
 
             if navigationController.presentedViewController != nil, !modalNavigationController.isBeingDismissed {
                 pushOrReplace(on: modalNavigationController, with: controller, via: proposal)
+                updateModalPresentationStyle(for: proposal)
             } else {
                 modalNavigationController.setViewControllers([controller], animated: proposal.animated)
                 modalNavigationController.setModalPresentationStyle(via: proposal)
@@ -128,6 +129,24 @@ class NavigationHierarchyController {
             navigationController.pushViewController(controller, animated: proposal.animated)
         } else {
             navigationController.replaceLastViewController(with: controller)
+        }
+    }
+    
+    private func updateModalPresentationStyle(for proposal: VisitProposal) {
+        guard navigationController.presentedViewController != nil else { return }
+        
+        modalNavigationController.setModalPresentationStyle(via: proposal)
+        
+        if #available(iOS 15.0, *) {
+            if let sheet = modalNavigationController.sheetPresentationController {
+                sheet.animateChanges {
+                    if proposal.modalStyle == .medium {
+                        sheet.selectedDetentIdentifier = .medium
+                    } else if proposal.modalStyle == .large {
+                        sheet.selectedDetentIdentifier = .large
+                    }
+                }
+            }
         }
     }
 

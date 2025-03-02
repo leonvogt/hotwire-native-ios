@@ -17,6 +17,24 @@
     },
     {
       "patterns": [
+        "/one"
+      ],
+      "properties": {
+        "context": "modal",
+        "modal_style": "medium",
+      }
+    },
+    {
+      "patterns": [
+        "/two"
+      ],
+      "properties": {
+        "context": "modal",
+        "modal_style": "large",
+      }
+    },
+    {
+      "patterns": [
         "/numbers$"
       ],
       "properties": {
